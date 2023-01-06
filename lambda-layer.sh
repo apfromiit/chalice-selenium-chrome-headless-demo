@@ -11,3 +11,4 @@ zip -yr bin.zip bin
 mv bin.zip chromedriver.zip
 rm -rf bin
 aws lambda publish-layer-version --layer-name chromedriver --zip-file fileb://chromedriver.zip --description "Headless Chrome Driver"  --compatible-runtimes python3.7
+rm chromedriver.zip
