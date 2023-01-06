@@ -1,0 +1,31 @@
+name: chalice-deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  chalice-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.7'
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install Dependencies
+        run: |
+          pip install chalice
+          pip install -r requirements.txt
+
+      - name: Chalice Deploy
+        run: chalice deploy
